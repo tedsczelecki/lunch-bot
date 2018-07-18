@@ -1,22 +1,23 @@
+const path = require('path');
+
 const BaseModel = require('../base.model');
 
-class Post extends BaseModel {
+class Restaurants extends BaseModel {
   static get tableName() {
     return 'fbot_restaurants';
   }
-  // static get relationMappings() {
-  //   return {
-  //     user: {
-  //       relation: BaseModel.BelongsToOneRelation,
-  //       // We use __dirname to avoid require loops
-  //       modelClass: __dirname + '/../users/model',
-  //       join: {
-  //         from: 'posts.user_id',
-  //         to: 'users.id',
-  //       },
-  //     },
-  //   };
-  // }
+  static get relationMappings() {
+    return {
+      menu: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: path.join(__dirname, '../menus/model'),
+        join: {
+          from: 'fbot_restaurants.id',
+          to: 'fbot_menus.restaurant_id',
+        }
+      }
+    };
+  }
 }
 
-module.exports = Post;
+module.exports = Restaurants;

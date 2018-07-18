@@ -56,17 +56,28 @@
 //   update,
 // };
 
-const Messages = require('./model');
+const Restaurants = require('./model');
 const { success, redirect } = require('../responses');
 
-const addMessage = async (req, res) => {
-  const query = await Messages.query()
-    .insertAndFetch(req.body);
+const byName = async (req, res) => {
+  const name = req.name || req.params.name;
+  const query = await Restaurants.query()
+    .where({
+      name
+    })
+    .eager('[menu]');
 
   return res ? success(res, query) : query;
-}
+};
 
+const findAll = async (req, res) => {
+  const query = await Restaurants.query()
+    .eager('[menu]');
+
+  return res ? success(res, query) : query;
+};
 
 module.exports = {
-  addMessage,
+  byName,
+  findAll,
 };

@@ -61,7 +61,6 @@ const { success, redirect } = require('../responses');
 
 const getLunchByDate = async (req, res) => {
   const date = new Date(req.date || url.parse(req.url, true).query.date);
-  console.log(date);
   const query = await Lunches.query()
     .where({
       date

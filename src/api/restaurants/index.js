@@ -4,7 +4,8 @@ const Controller = require('./controller');
 
 const router = Router();
 router
-  // .get('/', Controller.index)
+  .get('/', Controller.findAll)
+  .get('/byName/:name', Controller.byName)
   // .post('/', Controller.addMessage);
   // .get('/:id', Controller.show)
   // .put('/:id', Controller.update)
