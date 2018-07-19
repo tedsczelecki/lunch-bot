@@ -8,14 +8,6 @@ class Restaurants extends BaseModel {
   }
   static get relationMappings() {
     return {
-      menu: {
-        relation: BaseModel.HasManyRelation,
-        modelClass: path.join(__dirname, '../menus/model'),
-        join: {
-          from: 'fbot_restaurants.id',
-          to: 'fbot_menus.restaurant_id',
-        }
-      }
     };
   }
 }

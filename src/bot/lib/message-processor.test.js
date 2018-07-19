@@ -36,7 +36,7 @@ describe('Message Processor', () => {
         .toEqual(new Date('2018-06-18T04:00:00.000Z'))
     });
 
-    it('Whas was lunch on Monday', () => {
+    it('What was lunch on Monday', () => {
       expect(getDateFromMessage({text: 'What was lunch on Monday'}, date))
         .toEqual(new Date('2018-06-11T04:00:00.000Z'))
     });

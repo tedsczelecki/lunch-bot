@@ -63,21 +63,41 @@ const byName = async (req, res) => {
   const name = req.name || req.params.name;
   const query = await Restaurants.query()
     .where({
-      name
+      name,
     })
-    .eager('[menu]');
+
+  return res ? success(res, query) : query;
+};
+
+const create = async (req, res) => {
+  const body = req.name ? req : req.params;
+  const query = await Restaurants
+    .query()
+    .insert(body);
 
   return res ? success(res, query) : query;
 };
 
 const findAll = async (req, res) => {
-  const query = await Restaurants.query()
-    .eager('[menu]');
+  const query = await Restaurants.query();
 
   return res ? success(res, query) : query;
 };
 
+const findOrInsert = async (req, res) => {
+  const rest = await byName(req, res);
+
+  if (rest && rest.length > 0) {
+    return res ? success(res, rest[0]) : rest[0];
+  }
+  const newRest = await create(req, res);
+  return res ? success(res, newRest) : newRest;
+
+};
+
 module.exports = {
   byName,
+  create,
   findAll,
+  findOrInsert,
 };

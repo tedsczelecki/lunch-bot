@@ -1,3 +1,4 @@
+const moment = require('moment');
 const nlp = require('compromise');
 const rp = require('request-promise');
 
@@ -57,7 +58,36 @@ const getDateFromMessage = (message, date = new Date()) => {
   return _date;
 };
 
+const getReadableRelativeDate = (date, focusWord = '') => {
+  const _date = date instanceof Date ? date : new Date(date) ;
+  return moment(_date).calendar(null, {
+    sameDay: `[Today's ${focusWord} was]`,
+    nextDay: `[Tomorrow's ${focusWord} is]`,
+    nextWeek: `dddd['s ${focusWord} will be]`,
+    lastDay: `[Yesterday's ${focusWord} was]`,
+    lastWeek: `[Last] dddd['s ${focusWord} was]`,
+    sameElse: `[${focusWord} on] DD/MM/YYYY`
+  })
+};
+
+const getStartOfTheWeek = () => {
+  const date = new Date();
+  const diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+  return new Date(date.setDate(diff));
+};
+
+const zeroTimeOnDateString = (date) => {
+  const _date = date instanceof Date ? date : new Date(date);
+  const year = _date.getFullYear();
+  const month = `00${_date.getMonth()+1}`.slice(-2);
+  const day = `00${_date.getDate()}`.slice(-2);
+  return `${year}-${month}-${day}`;
+};
+
 module.exports = {
   getDateFromMessage,
   getDateInfoFromText,
+  getReadableRelativeDate,
+  getStartOfTheWeek,
+  zeroTimeOnDateString,
 }
